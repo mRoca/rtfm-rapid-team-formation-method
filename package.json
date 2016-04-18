@@ -1,0 +1,22 @@
+{
+  "name": "rtfm-rapid-team-formation-method",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "slides": "node node_modules/markdown-to-slides/index.js git/git.md -o git/git.html --style assets/slides.css",
+    "slides-watch": "node node_modules/markdown-to-slides/index.js git/git.md -o git/git.html --style assets/slides.css -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mRoca/rtfm-rapid-team-formation-method.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mRoca/rtfm-rapid-team-formation-method/issues"
+  },
+  "homepage": "https://github.com/mRoca/rtfm-rapid-team-formation-method#readme",
+  "devDependencies": {
+    "markdown-to-slides": "^1.0.3"
+  }
+}

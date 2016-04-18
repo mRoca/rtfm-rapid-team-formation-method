@@ -16,11 +16,11 @@
 And its git commits
 
 ```
-* faace49 - Add comment line 4  (HEAD, origin/master, master)
-* d968810 - Add comment line 3 
-* dfd7dcd - Add comment line 2 
-* a671eb0 - Add comment line 1 
-* 4b19495 - Add index page 
+* faace49 - Add comment line 4 (origin/master)
+* d968810 - Add comment line 3
+* dfd7dcd - Add comment line 2
+* a671eb0 - Add comment line 1
+* 4b19495 - Add index page
 ```
 
 ---
@@ -66,7 +66,13 @@ git checkout -b feature/add-cool-subtitle master
 
 **Code**
 
-*I hope you know what to do here ;-)*
+```
+ <h1>My lovely website</h1>
+
++<h2>A cool subtitle</h3>
++
+ <script type="application/javascript" src="script.js"></script>
+```
 
 **Commit**
 
@@ -75,12 +81,12 @@ git commit -am "Add a cool subtitle"
 ```
 
 ```
-* 92537a3 - Add a cool subtitle  (HEAD, feature/add-cool-subtitle)
-* faace49 - Add comment line 4  (origin/master, master)
-* d968810 - Add comment line 3 
-* dfd7dcd - Add comment line 2 
-* a671eb0 - Add comment line 1 
-* 4b19495 - Add index page 
+* 92537a3 - Add a cool subtitle (feature/add-cool-subtitle)
+* faace49 - Add comment line 4 (origin/master)
+* d968810 - Add comment line 3
+* dfd7dcd - Add comment line 2
+* a671eb0 - Add comment line 1
+* 4b19495 - Add index page
 ```
 
 ---
@@ -89,33 +95,35 @@ git commit -am "Add a cool subtitle"
 
 **Fix things, add things, code things**
 
-*I hope you know what to do here ;-)*
+```
+ <h1>My lovely website</h1>
 
-**Commit**
+-<h2>A cool subtitle</h3>
++<h2>A cool subtitle, nop ?</h3>
+
+ <script type="application/javascript" src="script.js"></script>
+```
+
+**Commit & Push**
 
 ```bash
 git commit -am "Fix the cool subtitle"
-```
-
-**Push**
-
-```bash
 git push -u origin feature/add-cool-subtitle
 ```
 
 ```
-* 6bac0fd - Fix the cool subtitle  (HEAD, origin/feature/add-cool-subtitle, feature/add-cool-subtitle)
-* 92537a3 - Add a cool subtitle 
-* faace49 - Add comment line 4  (origin/master, master)
-* d968810 - Add comment line 3 
-* dfd7dcd - Add comment line 2 
-* a671eb0 - Add comment line 1 
-* 4b19495 - Add index page 
+* 6bac0fd - Fix the cool subtitle (origin/feature/add-cool-subtitle)
+* 92537a3 - Add a cool subtitle
+* faace49 - Add comment line 4 (origin/master)
+* d968810 - Add comment line 3
+* dfd7dcd - Add comment line 2
+* a671eb0 - Add comment line 1
+* 4b19495 - Add index page
 ```
 
 ---
 
-## The branch is ok, we can create the Pull Request
+## The branch is ok, we create the PR
 
 ![Github PR creation example](img/github-pr-creation.png)
 
@@ -123,12 +131,14 @@ git push -u origin feature/add-cool-subtitle
 
 ## The PR is here !
 
-> [RFR] Add cool subtitle
+```
+[RFR] Add cool subtitle
+```
 
 * [RFR] = Ready for review
 * [WIP] = Work in progress
 
-**Cool : it's [RFR], the reviewers can now approve the PR with a `+1` !**
+**Cool : it's [RFR], the reviewers can now approve the PR with a `+1`**
 
 ---
 
@@ -142,29 +152,27 @@ git push -u origin feature/add-cool-subtitle
 
 **Fix things, add things, code things**
 
-*I hope you know what to do here ;-)*
+```
+-<h2>A cool subtitle</h3>
++<h2>A cool subtitle, nop ?</h2>
+```
 
-**Commit**
+**Commit & Push**
 
 ```bash
 git commit -am "Fix the title"
-```
-
-**Push**
-
-```bash
 git push
 ```
 
 ```
-* b4f62fe - Fix the title  (HEAD, origin/feature/add-cool-subtitle, feature/add-cool-subtitle)
-* 6bac0fd - Fix the cool subtitle 
-* 92537a3 - Add a cool subtitle 
-* faace49 - Add comment line 4  (origin/master, master)
-* d968810 - Add comment line 3 
-* dfd7dcd - Add comment line 2 
-* a671eb0 - Add comment line 1 
-* 4b19495 - Add index page 
+* b4f62fe - Fix the title (origin/feature/add-cool-subtitle)
+* 6bac0fd - Fix the cool subtitle
+* 92537a3 - Add a cool subtitle
+* faace49 - Add comment line 4 (origin/master)
+* d968810 - Add comment line 3
+* dfd7dcd - Add comment line 2
+* a671eb0 - Add comment line 1
+* 4b19495 - Add index page
 ```
 
 > Tips : the `git commit --amend` command adds the current changes in the previous commit
@@ -173,9 +181,7 @@ git push
 
 ## The PR is now ok
 
-The reviewer adds a +1 comment in the PR page
-
-=> The developer can now merge his PR !
+The reviewer adds a +1 comment in the PR page, the developer can now merge his PR !
 
 *But...*
 
@@ -186,16 +192,16 @@ The reviewer adds a +1 comment in the PR page
 ![Github PR conflict example](img/github-pr-conflicts.png)
 
 ```
-* eaa707b - Add the boss word  (origin/feature/add-boss-word)
-| * b4f62fe - Fix the title  (HEAD, origin/feature/add-cool-subtitle, feature/add-cool-subtitle)
-| * 6bac0fd - Fix the cool subtitle 
-| * 92537a3 - Add a cool subtitle 
-|/  
-* faace49 - Add comment line 4  (origin/master, master)
-* d968810 - Add comment line 3 
-* dfd7dcd - Add comment line 2 
-* a671eb0 - Add comment line 1 
-* 4b19495 - Add index page 
+* eaa707b - Add the boss word (origin/feature/add-boss-word)
+| * b4f62fe - Fix the title (origin/feature/add-cool-subtitle)
+| * 6bac0fd - Fix the cool subtitle
+| * 92537a3 - Add a cool subtitle
+|/
+* faace49 - Add comment line 4 (origin/master)
+* d968810 - Add comment line 3
+* dfd7dcd - Add comment line 2
+* a671eb0 - Add comment line 1
+* 4b19495 - Add index page
 ```
 
 ---
@@ -206,7 +212,7 @@ The reviewer adds a +1 comment in the PR page
 git merge master
 ```
 
-```html
+```
 <<<<<<< HEAD
 <h2>A cool subtitle, nop ?</h2>
 =======
@@ -229,34 +235,44 @@ Conflicts:
 git push
 ```
 
+---
+
+## Conflicts resolving - Option 1 : Merge
+
+The branches states after merge :
+
 ```
-*   5516331 - Merge branch 'master' into feature/add-cool-subtitle  (HEAD, origin/feature/add-cool-subtitle, feature/add-cool-subtitle)
-|\  
-| *   44d94c9 - Merge pull request #4 from mRoca/feature/add-boss-word  (origin/master, master)
-| |\  
-| | * eaa707b - Add the boss word 
-| |/  
-* | b4f62fe - Fix the title 
-* | 6bac0fd - Fix the cool subtitle 
-* | 92537a3 - Add a cool subtitle 
-|/  
-* faace49 - Add comment line 4 
-* d968810 - Add comment line 3 
-* dfd7dcd - Add comment line 2 
-* a671eb0 - Add comment line 1 
-* 4b19495 - Add index page 
+*   5516331 - Merge branch 'master' into feature/add-cool-subtitle (origin/feature/add-cool-subtitle)
+|\
+| *   44d94c9 - Merge PR #4 from feature/add-boss-word (origin/master)
+| |\
+| | * eaa707b - Add the boss word
+| |/
+* | b4f62fe - Fix the title
+* | 6bac0fd - Fix the cool subtitle
+* | 92537a3 - Add a cool subtitle
+|/
+* faace49 - Add comment line 4
+* d968810 - Add comment line 3
+* dfd7dcd - Add comment line 2
+* a671eb0 - Add comment line 1
+* 4b19495 - Add index page
 ```
+
+---
+
+## Conflicts resolving - Option 1 : Merge
 
 If the PR is now merged, another merge commit will be created :
 
 ```
-*   829218c - Merge pull request #3 from mRoca/feature/add-cool-subtitle  (HEAD, origin/master, master)
+*   829218c - Merge PR #3 from feature/add-cool-subtitle (origin/master)
 |\
 | *   5516331 - Merge branch 'master' into feature/add-cool-subtitle
 | |\
 | |/
 |/|
-* |   44d94c9 - Merge pull request #4 from mRoca/feature/add-boss-word
+* |   44d94c9 - Merge PR #4 from feature/add-boss-word
 |\ \
 | * | eaa707b - Add the boss word
 |/ /
@@ -271,10 +287,8 @@ If the PR is now merged, another merge commit will be created :
 * 4b19495 - Add index page
 ```
 
-=> 2 problems :
-
-* There are useless commits
-* The project history is ugly and useless
+* Problem 1 : There are useless commits
+* Problem 2 : The project history is ugly and useless
 
 ---
 
@@ -292,17 +306,7 @@ Conflict with `Add a cool subtitle` :
 <<<<<<< HEAD
 <p>I love you ! <em>The boss.</em></p>
 =======
-<h2>A cool subtitle</h2>
->>>>>>> Add a cool subtitle
-```
-
-1 - Conflict with `Add a cool subtitle` :
-
-```
-<<<<<<< HEAD
-<p>I love you ! <em>The boss.</em></p>
-=======
-<h2>A cool subtitle</h2>
+<h2>A cool subtitle</h3>
 >>>>>>> Add a cool subtitle
 ```
 
@@ -310,62 +314,44 @@ Conflict with `Add a cool subtitle` :
 git rebase --continue
 ```
 
-2 - Conflict with `Fix the cool subtitle` :
+... The `rebase`will apply diff merge on EACH commit of the target branch to rewrite history
 
-```
-<<<<<<< HEAD
-
-<h2>A cool subtitle</h2>
-
-<p>I love you ! <em>The boss.</em></p>
-=======
-<h2>A cool subtitle, nop ?</h3>
->>>>>>> Fix the cool subtitle
-```
-
-```bash
-git rebase --continue
-```
-
-3 - Conflict with `Fix the title` : nop \o/
 
 ```bash
 git push -f
 ```
 
+---
+
+## Conflicts resolving - Option 2 : Rebase
+
 Before :
 
 ```
-*   44d94c9 - Merge pull request #4 from mRoca/feature/add-boss-word  (origin/master, master)
+*   44d94c9 - Merge PR #4 from feature/add-boss-word (origin/master)
 |\
 | * eaa707b - Add the boss word
 |/
-| * b4f62fe - Fix the title  (HEAD, origin/feature/add-cool-subtitle, feature/add-cool-subtitle)
+| * b4f62fe - Fix the title (origin/feature/add-cool-subtitle)
 | * 6bac0fd - Fix the cool subtitle
 | * 92537a3 - Add a cool subtitle
 |/
 * faace49 - Add comment line 4
-* d968810 - Add comment line 3
-* dfd7dcd - Add comment line 2
-* a671eb0 - Add comment line 1
-* 4b19495 - Add index page
+...
 ```
 
 After :
 
 ```
-* 5d634d1 - Fix the title  (HEAD, origin/feature/add-cool-subtitle, feature/add-cool-subtitle)
+* 5d634d1 - Fix the title (origin/feature/add-cool-subtitle)
 * 139770d - Fix the cool subtitle
 * 4650798 - Add a cool subtitle
-*   44d94c9 - Merge pull request #4 from mRoca/feature/add-boss-word  (origin/master, master)
+*   44d94c9 - Merge PR #4 from feature/add-boss-word (origin/master)
 |\
 | * eaa707b - Add the boss word
 |/
 * faace49 - Add comment line 4
-* d968810 - Add comment line 3
-* dfd7dcd - Add comment line 2
-* a671eb0 - Add comment line 1
-* 4b19495 - Add index page
+...
 ```
 
 ---
@@ -396,6 +382,10 @@ The feature branch contains 3 commits, and 1 updated line. This is not cool.
 
 The solution : we will "squash" the 3 commits onto 1 new commit !
 
+---
+
+## Git squash
+
 ```bash
 git rebase -i HEAD~3
 ```
@@ -422,6 +412,10 @@ squash 139770d Fix the cool subtitle
 s 5d634d1 Fix the title
 ```
 
+---
+
+## Git squash
+
 After saving :
 
 ```
@@ -444,13 +438,9 @@ Fix the title
 Add a cool subtitle
 
 # This is the 2nd commit message:
-
-
 # This is the 3rd commit message:
 
 ```
-
-After saving :
 
 ```
 [HEAD détachée 65da5a8] Add a cool subtitle
@@ -458,13 +448,17 @@ After saving :
 Successfully rebased and updated refs/heads/feature/add-cool-subtitle.
 ```
 
+---
+
+## Git squash
+
 ```bash
 git push -f
 ```
 
 ```
-* 65da5a8 - Add a cool subtitle  (HEAD, origin/feature/add-cool-subtitle, feature/add-cool-subtitle)
-*   44d94c9 - Merge pull request #4 from mRoca/feature/add-boss-word  (origin/master, master)
+* 65da5a8 - Add a cool subtitle (origin/feature/add-cool-subtitle)
+*   44d94c9 - Merge PR #4 from feature/add-boss-word (origin/master)
 |\
 | * eaa707b - Add the boss word
 |/
@@ -481,7 +475,15 @@ git push -f
 
 ![Github PR merge example](img/github-pr-merge.png)
 
+---
+
+## The PR is now approved and mergeable
+
 ![Github PR merge confirm example](img/github-pr-merge-confirm.png)
+
+---
+
+## The PR is now approved and mergeable
 
 ![Github PR merge delete branch example](img/github-pr-merge-delete-branch.png)
 
@@ -490,11 +492,11 @@ git push -f
 ## The result : an atomic and unique commit, a clean history
 
 ```
-*   0e3382f - Merge pull request #5 from mRoca/feature/add-cool-subtitle  (HEAD, origin/master, master)
+*   0e3382f - Merge PR #5 from feature/add-cool-subtitle (origin/master)
 |\
 | * 65da5a8 - Add a cool subtitle
 |/
-*   44d94c9 - Merge pull request #4 from mRoca/feature/add-boss-word
+*   44d94c9 - Merge PR #4 from feature/add-boss-word
 |\
 | * eaa707b - Add the boss word
 |/
@@ -518,8 +520,48 @@ git push -f
 * `git push -f origin feature/my-new-feature master`
 * PR creation
 * Review...
-* Code...
+* Code & fixes...
 * `git commit --amend && git push -f`
 * Review... +1 !
 * Merge PR
 * GOTO begin ;-)
+
+---
+
+## Development workflow
+
+![Git workflow](img/git-workflow.png)
+
+https://www.atlassian.com/pt/git/workflows#!workflow-gitflow
+
+---
+
+## Naming convention
+
+| Item                  | Name                          |
+| --------------------- | ----------------------------- |
+| Release branch        | release/v2.0.1                |
+| Feature branch        | feature/my_feature_name       |
+| Feature branch        | feature/2234_my_feature_name  |
+| Hotfix branch         | hotfix/my_hotfix_name         |
+| Commit                | Add my news                   |
+| Tag                   | v2.0.1                        |
+| Hotfix Tag            | v2.0.1.1                      |
+| Work in progress PR   | [WIP] #1234 My pull request   |
+| Ready for review PR   | [RFR] #1234 My pull request   |
+
+---
+
+## Cheat Sheet
+
+https://gist.github.com/mRoca/ecbe2b82d94c7ef440f8
+
+## Advanced git
+
+http://csarrazi-slides.github.io/git-for-teams/#/
+
+---
+
+## Credits
+
+* Git workflow image : https://www.atlassian.com/pt/git/workflows#!workflow-gitflow
