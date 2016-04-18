@@ -1,0 +1,54 @@
+
+#redis:
+#    image: phpdockerio/redis:latest
+#
+#mysql:
+#    image: mysql:5.7
+#    environment:
+#        - MYSQL_ROOT_PASSWORD=root
+#        - MYSQL_DATABASE=myproject
+#        - MYSQL_USER=myproject
+#        - MYSQL_PASSWORD=myproject
+#
+#elasticsearch:
+#    image: elasticsearch:2.2
+
+front-nginx:
+    image: phpdockerio/nginx:latest
+    volumes:
+        - ./front:/var/www
+        - ./docker/nginx/nginx-front.conf:/etc/nginx/conf.d/default.conf
+    ports:
+        - "18880:80"
+    links:
+        - front-fpm
+
+front-fpm:
+    build: .
+    dockerfile: docker/php-fpm/Dockerfile
+    volumes:
+        - ./front:/var/www
+        - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+    links:
+        - api-nginx:api.rtfm.docker
+
+api-nginx:
+    image: phpdockerio/nginx:latest
+    volumes:
+        - ./api:/var/www
+        - ./docker/nginx/nginx-api.conf:/etc/nginx/conf.d/default.conf
+    ports:
+        - "18881:80"
+    links:
+        - api-fpm
+
+api-fpm:
+    build: .
+    dockerfile: docker/php-fpm/Dockerfile
+    volumes:
+        - ./api:/var/www
+        - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+#    links:
+#        - mysql
+#        - redis
+#        - elasticsearch

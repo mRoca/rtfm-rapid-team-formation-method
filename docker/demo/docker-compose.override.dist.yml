@@ -1,0 +1,22 @@
+front-nginx:
+    environment:
+        DOMAIN_NAME: front.rtfm.docker
+
+api-nginx:
+    environment:
+        DOMAIN_NAME: api.rtfm.docker
+
+# Complete credentials and uncomment to use blackfire
+#
+#front-fpm:
+#    links:
+#        - api-nginx:api.rtfm.docker
+#        - blackfire
+#
+#blackfire:
+#    image: blackfire/blackfire
+#    environment:
+#        BLACKFIRE_LOG_LEVEL: 4
+#        BLACKFIRE_SERVER_ID: XXXX
+#        BLACKFIRE_SERVER_TOKEN: XXXX
+

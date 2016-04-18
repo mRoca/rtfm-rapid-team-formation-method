@@ -1,2 +1,5 @@
 /node_modules
 /git/git.html
+/docker/demo/front/vendor
+/docker/demo/front/composer.lock
+/docker/demo/docker-compose.override.yml

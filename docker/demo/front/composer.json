@@ -1,0 +1,17 @@
+{
+    "name": "mroca/rtfm-demo",
+    "description": "Demo project for RTFM - Rapid Team Formation Method",
+    "require": {
+        "php": ">=5.6",
+        "symfony/var-dumper": "^3.0"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "^1.11"
+    },
+    "authors": [
+        {
+            "name": "mRoca",
+            "email": "mroca.dh@gmail.com"
+        }
+    ]
+}

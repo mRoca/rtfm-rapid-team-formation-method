@@ -26,3 +26,11 @@ You can turn on presentator mode :
 c: open a synced version in a new tab
 p : switch to presentator mode
 ```
+
+## Scripts
+
+**Print clean git network**
+
+```bash
+git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold white)%s%C(reset) %C(bold yellow)%d%C(reset)' --abbrev-commit --all
+```
