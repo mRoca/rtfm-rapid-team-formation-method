@@ -23,7 +23,7 @@ Open the HTML file in your browser.
 You can turn on presentator mode :
 
 ```
-c: open a synced version in a new tab
+c : open a synced version in a new tab
 p : switch to presentator mode
 ```
 
