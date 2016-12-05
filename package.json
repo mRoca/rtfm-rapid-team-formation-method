@@ -1,17 +1,21 @@
 {
   "name": "rtfm-rapid-team-formation-method",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "scripts": {
-    "slides": "node node_modules/markdown-to-slides/index.js git/git.md -o git/git.html --style assets/slides.css",
-    "slides-watch": "node node_modules/markdown-to-slides/index.js git/git.md -o git/git.html --style assets/slides.css -w"
+    "slides": "npm run-script slides-docker && npm run-script slides-git && npm run-script images",
+    "slides-docker": "node node_modules/markdown-to-slides/index.js docker/docker.md -o web/docker.html --style web/assets/slides.css",
+    "slides-git": "node node_modules/markdown-to-slides/index.js git/git.md -o web/git.html --style web/assets/slides.css",
+    "images": "rm -rf web/img-* && cp -r ./*/img-* web/",
+    "slides-watch-git": "node node_modules/markdown-to-slides/index.js git/git.md -o web/git.html --style web/assets/slides.css -w",
+    "slides-watch-docker": "node node_modules/markdown-to-slides/index.js docker/docker.md -o web/docker.html --style web/assets/slides.css -w"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mRoca/rtfm-rapid-team-formation-method.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Michel Roca",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mRoca/rtfm-rapid-team-formation-method/issues"
   },

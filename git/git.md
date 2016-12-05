@@ -125,7 +125,7 @@ git push -u origin feature/add-cool-subtitle
 
 ## The branch is ok, we create the PR
 
-![Github PR creation example](img/github-pr-creation.png)
+![Github PR creation example](img-git/github-pr-creation.png)
 
 ---
 
@@ -144,7 +144,7 @@ git push -u origin feature/add-cool-subtitle
 
 ## ... but the PR is not ok : a reviewer writes some comments
 
-![Github PR comment example](img/github-pr-comment.png)
+![Github PR comment example](img-git/github-pr-comment.png)
 
 ---
 
@@ -189,7 +189,7 @@ The reviewer adds a +1 comment in the PR page, the developer can now merge his P
 
 ## Other commits have been merged by other developers onto master
 
-![Github PR conflict example](img/github-pr-conflicts.png)
+![Github PR conflict example](img-git/github-pr-conflicts.png)
 
 ```
 * eaa707b - Add the boss word (origin/feature/add-boss-word)
@@ -473,19 +473,19 @@ git push -f
 
 ## The PR is now approved and mergeable
 
-![Github PR merge example](img/github-pr-merge.png)
+![Github PR merge example](img-git/github-pr-merge.png)
 
 ---
 
 ## The PR is now approved and mergeable
 
-![Github PR merge confirm example](img/github-pr-merge-confirm.png)
+![Github PR merge confirm example](img-git/github-pr-merge-confirm.png)
 
 ---
 
 ## The PR is now approved and mergeable
 
-![Github PR merge delete branch example](img/github-pr-merge-delete-branch.png)
+![Github PR merge delete branch example](img-git/github-pr-merge-delete-branch.png)
 
 ---
 
@@ -530,7 +530,7 @@ git push -f
 
 ## Development workflow
 
-![Git workflow](img/git-workflow.png)
+![Git workflow](img-git/git-workflow.png)
 
 https://www.atlassian.com/pt/git/workflows#!workflow-gitflow
 

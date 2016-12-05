@@ -2,7 +2,7 @@
 
 ## Summary
 
-### Git & travail en équipe
+### Git & working with a team
 
 * [x] Git
 * [x] Keep your history clean
@@ -43,23 +43,54 @@ https://github.com/gnab/remark/wiki/Markdown
 
 https://github.com/partageit/markdown-to-slides
 
+#### In a docker container
+
 ```bash
-npm install
+docker-compose run --rm node npm install
 
 # Generate slides from .md to .html once
-npm run-script slides
+docker-compose run --rm node npm run-script slides
+```
 
-# Permanent files watch
-npm run-script slides-watch
+#### On host
+
+```bash
+npm install
+npm run-script slides
+```
+
+### Watch files changes and automaticaly build slides
+
+```bash
+docker-compose run --rm node npm run-script slides-watch-git
+docker-compose run --rm node npm run-script slides-watch-docker
+
+# Or :
+
+npm run-script slides-watch-git
+npm run-script slides-watch-docker
 ```
 
 ### Use slides
+
+#### In a docker container
+
+Boot the web container 
+
+```bash
+docker-compose up -d web
+```
+
+Access the `web` docker container on the 80 port : http://web.rtfmrapidteamformationmethod.docker, or access http://localhost:8765 .
+
+#### On host
 
 Open the HTML file in your browser.
 
 **Generated files :**
 
-* `./git/git.html`
+* `./web/git.html`
+* `./web/docker.html`
 
 You can turn on presentator mode using the following shortcut keys :
 

@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  node:
+    image: node:7.2
+    user: node
+    working_dir: /srv
+    volumes:
+      - ./:/srv
+
+  web:
+    image: nginx:1.11
+    volumes:
+      - ./web/:/usr/share/nginx/html:ro
+    ports:
+      - 8765:80
