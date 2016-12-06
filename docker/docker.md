@@ -118,6 +118,21 @@ docker run --rm -ti -u node -w /usr/src/app -p 3001:3000 node:7.2 node server.js
 
 ---
 
+### Image layers - Download
+
+```
+$ docker pull ubuntu:15.04
+15.04: Pulling from library/ubuntu
+47984b517ca9: Pull complete
+df6e891a3ea9: Pull complete
+e65155041eed: Pull complete
+c8be1ac8145a: Pull complete
+Digest: sha256:5e279a9df07990286cce22e1b0f5b0490629ca6d187698746ae5e28e604a640e
+Status: Downloaded newer image for ubuntu:15.04
+```
+
+---
+
 ### Container layer
 
 > When you create a new container, you add a new, thin, writable layer on top of the underlying stack.
@@ -131,3 +146,67 @@ docker run --rm -ti -u node -w /usr/src/app -p 3001:3000 node:7.2 node server.js
     Previously, image and layer data was referenced and stored using a randomly generated UUID.
     In the new model this is replaced by a secure content hash.
 
+---
+
+### Storage drivers
+
+> The Docker storage driver is responsible for enabling and managing both the image layers and the writable container layer.
+    How a storage driver accomplishes these can vary between drivers. Two key technologies behind Docker image and container
+    management are stackable image layers and copy-on-write (CoW).
+
+![Storage drivers](img-docker/docker-storage-drivers.png)
+
+---
+
+#### The copy-on-write strategy
+
+> In this strategy, system processes that need the same data share the same instance of that data rather than having their own copy.
+    At some point, if one process needs to modify or write to the data, only then does the operating system make a copy of the data
+    for that process to use. Only the process that needs to write has access to the data copy. All the other processes continue to
+    use the original data.
+
+- Search through the image layers for the file to update.
+    The process starts at the top, newest layer and works down to the base layer one layer at a time.
+- Perform a “copy-up” operation on the first copy of the file that is found.
+    A “copy up” copies the file up to the container’s own thin writable layer.
+- Modify the copy of the file in container’s thin writable layer.
+
+---
+
+#### AUFS
+
+> AUFS was the first storage driver in use with Docker.
+    AUFS is a unification filesystem. This means that it takes multiple directories on a single Linux host,
+    stacks them on top of each other, and provides a single unified view. To achieve this, AUFS uses a union mount.
+
+![AUFS layers](img-docker/docker-aufs-layers.jpg)
+
+---
+
+#### AUFS - Details
+
+> AUFS also supports the copy-on-write technology.
+
+- When a container do a write operation on a file, the file is fully copied in the container layer
+- When a file is deleted, a `without file` is created in the container layer
+- Renaming directories is not fully supported => the app should handle EXDEV (“cross-device link not permitted”)
+    and fall back to a “copy and unlink” strategy.
+- Storage path : `/var/lib/docker/aufs/diff/` for images and containers layers, `/var/lib/docker/aufs/layers/` for layers metadata,
+    `/var/lib/docker/aufs/mnt/<container-id>` for union mount point, and `/var/lib/docker/containers/<container-id>` for containers
+    metadata and config files
+
+---
+
+#### Btrfs
+
+---
+
+### Volumes
+
+> When a container is deleted, any data written to the container that is not stored in a data volume is deleted along with the container.
+
+> A data volume is a directory or file in the Docker host’s filesystem that is mounted directly into a container.
+
+> Reads and writes to data volumes bypass the storage driver and operate at native host speeds. You can mount any number of data volumes into a container.
+
+> Multiple containers can also share one or more data volumes.

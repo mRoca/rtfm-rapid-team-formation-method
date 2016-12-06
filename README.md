@@ -65,6 +65,9 @@ npm run-script slides
 docker-compose run --rm node npm run-script slides-watch-git
 docker-compose run --rm node npm run-script slides-watch-docker
 
+# There is no watcher on images, for the moment
+docker-compose run --rm node npm run-script images
+
 # Or :
 
 npm run-script slides-watch-git
