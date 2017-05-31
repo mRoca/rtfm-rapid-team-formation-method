@@ -1,6 +1,6 @@
 <?php
 
 echo json_encode([
-    'title' => 'My homepage',
+    'title' => 'This is my API response :)',
     'date' => new \DateTime(),
 ]);

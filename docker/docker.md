@@ -197,7 +197,21 @@ Status: Downloaded newer image for ubuntu:15.04
 
 ---
 
+#### Device mapper
+
+> // TODO with love :)
+
+---
+
 #### Btrfs
+
+> // TODO with love :)
+
+---
+
+#### Zfs
+
+> // TODO with love :)
 
 ---
 
