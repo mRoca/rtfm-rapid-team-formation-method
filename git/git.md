@@ -140,6 +140,8 @@ git push -u origin feature/add-cool-subtitle
 
 **Cool : it's [RFR], the reviewers can now approve the PR with a `+1`**
 
+> We can use tags or colors instead of prefixes
+
 ---
 
 ## ... but the PR is not ok : a reviewer writes some comments
@@ -187,7 +189,7 @@ The reviewer adds a +1 comment in the PR page, the developer can now merge his P
 
 ---
 
-## Other commits have been merged by other developers onto master
+## Other commits have been merged by other developers into master
 
 ![Github PR conflict example](img-git/github-pr-conflicts.png)
 
@@ -288,7 +290,7 @@ If the PR is now merged, another merge commit will be created :
 ```
 
 * Problem 1 : There are useless commits
-* Problem 2 : The project history is ugly and useless
+* Problem 2 : The project history is ugly and not useful
 
 ---
 
@@ -314,7 +316,7 @@ Conflict with `Add a cool subtitle` :
 git rebase --continue
 ```
 
-... The `rebase`will apply diff merge on EACH commit of the target branch to rewrite history
+... The `rebase`will apply diff merge on **EACH** commit of the target branch to rewrite history
 
 
 ```bash
@@ -378,9 +380,9 @@ After :
 
 ## What about our commits ?
 
-The feature branch contains 3 commits, and 1 updated line. This is not cool.
+The feature branch contains 3 commits for 1 updated line. This is not cool.
 
-The solution : we will "squash" the 3 commits onto 1 new commit !
+The solution : we can "squash" the 3 commits onto 1 new commit !
 
 ---
 
@@ -443,7 +445,7 @@ Add a cool subtitle
 ```
 
 ```
-[HEAD détachée 65da5a8] Add a cool subtitle
+[HEAD detached 65da5a8] Add a cool subtitle
  1 file changed, 2 insertions(+)
 Successfully rebased and updated refs/heads/feature/add-cool-subtitle.
 ```
@@ -550,6 +552,7 @@ https://www.atlassian.com/pt/git/workflows#!workflow-gitflow
 | Work in progress PR   | [WIP] #1234 My pull request   |
 | Ready for review PR   | [RFR] #1234 My pull request   |
 
+​> When applied, this commit will: {{ Your commit message }}
 ---
 
 ## Cheat Sheet
