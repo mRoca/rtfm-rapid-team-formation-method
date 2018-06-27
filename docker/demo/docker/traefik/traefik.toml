@@ -1,0 +1,17 @@
+defaultEntryPoints = ["http", "dashboard"]
+
+[api]
+entryPoint = "dashboard"
+dashboard = true
+debug = true
+
+[entryPoints]
+  [entryPoints.dashboard]
+    address = ":9000"
+  [entryPoints.http]
+    address = ":80"
+
+[docker]
+domain = "vcap.me"
+watch = true
+exposedbydefault = false

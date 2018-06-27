@@ -476,7 +476,123 @@ sys 0m0.024s
 
 ---
 
-#### Storage drivers
+## Digging into Docker layers
+
+**TLDR;** Layers of a Docker image are essentially just files generated from running some command.
+You can view the contents of each layer on the Docker host at */var/lib/docker/aufs/diff*.
+Layers are neat because they can be re-used by multiple images saving disk space and reducing time
+to build images while maintaining their integrity.
+
+---
+
+### Dockerfile to layers
+
+```
+FROM node:latest
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY package.json /usr/src/app/
+RUN npm install
+
+# Bundle app source
+COPY . /usr/src/app
+
+EXPOSE 8080
+CMD [ "npm", "start" ]
+```
+
+Each step corresponds to a command run in the Dockerfile.
+And each layer is made up of the file generated from running that command.
+
+---
+
+#### Dockerfile to layers
+
+```
+$ docker build -t expressweb .
+
+Step 1 : FROM node:argon
+argon: Pulling from library/node...
+...
+Status: Downloaded newer image for node:argon
+ ---> 530c750a346e
+Step 2 : RUN mkdir -p /usr/src/app
+ ---> Running in 5090fde23e44
+ ---> 7184cc184ef8
+Removing intermediate container 5090fde23e44
+Step 3 : WORKDIR /usr/src/app
+ ---> Running in 2987746b5fba
+ ---> 86c81d89b023
+Removing intermediate container 2987746b5fba
+Step 4 : COPY package.json /usr/src/app/
+ ---> 334d93a151ee
+Removing intermediate container a678c817e467
+Step 5 : RUN npm install
+ ---> Running in 31ee9721cccb
+ ---> ecf7275feff3
+Removing intermediate container 31ee9721cccb
+Step 6 : COPY . /usr/src/app
+ ---> 995a21532fce
+Removing intermediate container a3b7591bf46d
+Step 7 : EXPOSE 8080
+ ---> Running in fddb8afb98d7
+ ---> e9539311a23e
+Removing intermediate container fddb8afb98d7
+Step 8 : CMD npm start
+ ---> Running in a262fd016da6
+ ---> fdd93d9c2c60
+Removing intermediate container a262fd016da6
+Successfully built fdd93d9c2c60
+```
+
+---
+
+#### Dockerfile to layers
+
+```
+docker history <image>
+
+$ docker history expressweb
+
+IMAGE         CREATED    CREATED BY                       SIZE      
+fdd93d9c2c60  2 days ago /bin/sh -c CMD ["npm" "start"]   0 B
+e9539311a23e  2 days ago /bin/sh -c EXPOSE 8080/tcp       0 B
+995a21532fce  2 days ago /bin/sh -c COPY dir:50ab47bff7   760 B
+ecf7275feff3  2 days ago /bin/sh -c npm install           3.439 MB
+334d93a151ee  2 days ago /bin/sh -c COPY file:551095e67   265 B
+86c81d89b023  2 days ago /bin/sh -c WORKDIR /usr/src/app  0 B
+7184cc184ef8  2 days ago /bin/sh -c mkdir -p /usr/src/app 0 B
+530c750a346e  2 days ago /bin/sh -c CMD ["node"]          0 B
+```
+
+---
+
+#### Docker run to layers
+
+```
+docker run expressweb
+```
+
+[Image layers](img-docker/docker-image-layers.png)
+
+---
+
+#### Layers storage
+
+The */var/lib/docker/aufs* directory points to three other directories:
+*diff*, *layers* and *mnt*.
+
+- Image layers and their contents are stored in the *diff* directory.
+- How image layers are stacked is in the *layers* directory.
+- Running containers are mounted below the *mnt* directory
+
+---
+
+### Storage drivers
 
 > The Docker storage driver is responsible for enabling and managing both the image layers and the writable container layer.
     How a storage driver accomplishes these can vary between drivers. Two key technologies behind Docker image and container
@@ -486,7 +602,13 @@ sys 0m0.024s
 
 ---
 
-##### The copy-on-write strategy
+### Union filesystem
+
+Union Mount is a way of combining numerous directories into one directory that looks like it contains the content from all the them.
+
+---
+
+### The copy-on-write strategy
 
 > In this strategy, system processes that need the same data share the same instance of that data rather than having their own copy.
     At some point, if one process needs to modify or write to the data, only then does the operating system make a copy of the data
@@ -501,9 +623,9 @@ sys 0m0.024s
 
 ---
 
-##### AUFS
+### AUFS
 
-> AUFS was the first storage driver in use with Docker.
+> AUFS (Another Union FileSystem) was the first storage driver in use with Docker.
     AUFS is a unification filesystem. This means that it takes multiple directories on a single Linux host,
     stacks them on top of each other, and provides a single unified view. To achieve this, AUFS uses a union mount.
 
@@ -511,7 +633,7 @@ sys 0m0.024s
 
 ---
 
-##### AUFS - Details
+### AUFS - Details
 
 > AUFS also supports the copy-on-write technology.
 
@@ -522,11 +644,13 @@ sys 0m0.024s
 - Storage path : `/var/lib/docker/aufs/diff/` for images and containers layers, `/var/lib/docker/aufs/layers/` for layers metadata,
     `/var/lib/docker/aufs/mnt/<container-id>` for union mount point, and `/var/lib/docker/containers/<container-id>` for containers
     metadata and config files
+- AUFS Branches — each Docker image layer is called a AUFS branch.
 
 ---
 
-##### Other storage drivers
+### Other storage drivers
 
+- OverlayFS
 - Device mapper
 - Btrfs
 - Zfs
@@ -534,6 +658,9 @@ sys 0m0.024s
 
 > // TODO with love :)
 
+---
+
+## More about Docker
 ---
 
 ### Volumes
@@ -548,6 +675,157 @@ sys 0m0.024s
 
 ---
 
+### docker-compose
+
+See the demo ;-)
+
+---
+
 ### Network
 
 See the demo ;-)
+
+---
+
+### Access to the containers on your host
+
+- By container IP
+- By exposed port
+
+ ... so convenient ...
+ 
+ But there are some other ways !
+
+---
+
+#### Auto update the hosts file
+
+https://github.com/iamluc/docker-hostmanager
+
+---
+
+#### Use a local DNS server
+
+https://github.com/jderusse/docker-dns-gen
+
+---
+
+#### Use a docker proxy
+
+https://github.com/containous/traefik
+
+---
+
+### Users and containers
+
+How to use the local user UUID and GUID in the container ? 
+
+By default, all the commands run in a container are made by the root user.
+If we set the `USER` value in the Dockerfile, how to do something as root ?
+
+---
+
+#### Users and containers
+
+/usr/bin/entrypoint
+
+```
+#!/usr/bin/env sh
+set -e
+
+umask ${ENTRYPOINT_UMASK:-022}
+
+: ${WWW_DATA_UID:=`stat -c %u /srv`}
+: ${WWW_DATA_GUID:=`stat -c %g /srv`}
+
+if [ "$WWW_DATA_UID" -ne "0" -a "`id -u www-data`" -ne "$WWW_DATA_UID" ]; then
+    usermod -u ${WWW_DATA_UID} www-data || true
+    groupmod -g ${WWW_DATA_GUID} www-data || true
+fi
+
+if [ "${ENTRYPOINT_USER:-root}" == "$(whoami)" ]; then
+    exec "$@"
+else
+    echo "Caution : executing 'su-exec \"${ENTRYPOINT_USER:-root}\" \"$@\"' with $(whoami) user witout signal handler"
+    su-exec "${ENTRYPOINT_USER:-root}" "$@"
+fi
+
+```
+
+---
+
+### Docker workbench for security
+
+```
+docker run -it --net host --pid host --cap-add audit_control \
+ -v /var/lib:/var/lib \
+ -v /var/run/docker.sock:/var/run/docker.sock \
+ -v /usr/lib/systemd:/usr/lib/systemd \
+ -v /etc:/etc --label docker_bench_security \
+ docker/docker-bench-security
+
+#OR 
+
+git clone https://github.com/docker/docker-bench-security.git
+cd docker-bench-security
+sh docker-bench-security.sh
+```
+
+> Use the free Docker Workbench For Security (https://github.com/docker/docker-bench-security)
+    to check for violations of security best practices 
+
+---
+
+### Docker workbench for security
+
+```
+$ sh docker-bench-security.sh
+
+[WARN] Some tests might require root to run
+[INFO] 1 - Host Configuration
+[WARN] 1.1 - Create a separate partition for containers
+[PASS] 1.2 - Use an updated Linux Kernel
+[WARN] 1.4 - Remove all non-essential services from the host - Network
+[WARN] * Host listening on: 7 ports
+[PASS] 1.5 - Keep Docker up to date
+[INFO] * Using 1.12.1 which is current as of 2016-08-16
+[INFO] * Check with your operating system vendor for support and security maintenance for docker
+ [INFO] 1.6 - Only allow trusted users to control Docker daemon
+[WARN] 1.7 - Failed to inspect: auditctl command not found.
+[INFO] 1.8 - Audit Docker files and directories - /var/lib/docker
+[INFO] * Directory not found
+[INFO] 1.9 - Audit Docker files and directories - /etc/docker
+[INFO] * Directory not found
+...
+[INFO] 2 - Docker Daemon Configuration
+[WARN] 2.1 - Restrict network traffic between containers
+[PASS] 2.2 - Set the logging level
+[PASS] 2.3 - Allow Docker to make changes to iptables
+[PASS] 2.4 - Do not use insecure registries
+[WARN] 2.5 - Do not use the aufs storage driver
+[INFO] 2.6 - Configure TLS authentication for Docker daemon
+[INFO] * Docker daemon not listening on TCP
+[INFO] 2.7 - Set default ulimit as appropriate
+[INFO] * Default ulimit doesn't appear to be set
+[WARN] 2.8 - Enable user namespace support
+[PASS] 2.9 - Confirm default cgroup usage
+[PASS] 2.10 - Do not change base device size until needed
+[WARN] 2.11 - Use authorization plugin
+[WARN] 2.12 - Configure centralized and remote logging
+[WARN] 2.13 - Disable operations on legacy registry (v1) 
+```
+
+---
+
+### And the bonus
+
+```
+docker run --rm -ti -v /:/host alpine:latest chroot /host 
+```
+
+---
+
+# Resources
+
+- `Docker by Example`, by codeops.tech
+- `Docker for Java Developers` (Java & Swarm), by Arun Gupta, Couchbase

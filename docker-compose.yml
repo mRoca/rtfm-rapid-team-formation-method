@@ -1,15 +1,15 @@
-version: '2'
+version: '3.2'
 
 services:
   node:
-    image: node:7.2
+    image: node:10.5-alpine
     user: node
     working_dir: /srv
     volumes:
       - ./:/srv
 
   web:
-    image: nginx:1.11
+    image: nginx:1.15-alpine
     volumes:
       - ./web/:/usr/share/nginx/html:ro
     ports:

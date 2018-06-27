@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+BASEDIR="$( cd "$( dirname "$0" )" && pwd )"
+DOCKER_COMPOSE=${DOCKER_COMPOSE:-docker-compose}
+DISABLE_TTY=${DISABLE_TTY:-0} # When running a php command inside a docker container with tty, the exit code will always be 129. Use DISABLE_TTY=1 .
+
+cd $(dirname ${BASEDIR})
+
+workdir=/srv
+if [[ "${@:1:1}" == "api" ]]; then
+    workdir=/srv/api
+    set -- "${@:2}"
+fi
+
+if [[ "${@:1:1}" == "front" ]]; then
+    workdir=/srv/front
+    set -- "${@:2}"
+fi
+
+if [ $# -eq 0 ]; then
+    set -- "sh"
+fi
+
+if ! ${DOCKER_COMPOSE} ps tools | grep -q Up; then
+    echo "The tools container is not running, starting it."
+    ${DOCKER_COMPOSE} up --no-recreate -d tools
+fi
+
+COMPOSE_API_VERSION=1.35 # Required for the -w option. To remove after the docker-compose next version.
+if [ -t 1 -a 1 -ne "${DISABLE_TTY}" ]; then
+    ${DOCKER_COMPOSE} exec -w "${workdir}" tools /bin/entrypoint "${@}"
+else
+    # CI and other runners
+    ${DOCKER_COMPOSE} exec -w "${workdir}" -T tools /bin/entrypoint "${@}"
+fi

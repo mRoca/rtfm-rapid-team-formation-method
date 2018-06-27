@@ -46,7 +46,7 @@ https://github.com/partageit/markdown-to-slides
 #### In a docker container
 
 ```bash
-docker-compose run --rm node npm install
+docker-compose run --rm node yarn install
 
 # Generate slides from .md to .html once
 docker-compose run --rm node npm run-script slides
@@ -55,7 +55,7 @@ docker-compose run --rm node npm run-script slides
 #### On host
 
 ```bash
-npm install
+yarn install
 npm run-script slides
 ```
 
@@ -84,7 +84,7 @@ Boot the web container
 docker-compose up -d web
 ```
 
-Access the `web` docker container on the 80 port : http://web.rtfmrapidteamformationmethod.docker, or access http://localhost:8765 .
+Access the `web` docker container on the 80 port : http://web.rtfm.docker, or access http://localhost:8765 .
 
 #### On host
 

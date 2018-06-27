@@ -1,19 +1,16 @@
 {
   "name": "rtfm-rapid-team-formation-method",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "scripts": {
     "slides": "npm run-script slides-docker && npm run-script slides-git && npm run-script images",
-    "slides-docker": "node node_modules/markdown-to-slides/index.js docker/docker.md -o web/docker.html --style web/assets/slides.css",
-    "slides-git": "node node_modules/markdown-to-slides/index.js git/git.md -o web/git.html --style web/assets/slides.css",
+    "slides-docker": "node node_modules/markdown-to-slides/index.js docker/docker.md -o web/docker.html --style web/assets/slides.css --include-remark",
+    "slides-git": "node node_modules/markdown-to-slides/index.js git/git.md -o web/git.html --style web/assets/slides.css --include-remark",
     "images": "rm -rf web/img-* && cp -r ./*/img-* web/",
-    "slides-watch-git": "node node_modules/markdown-to-slides/index.js git/git.md -o web/git.html --style web/assets/slides.css -w",
-    "slides-watch-docker": "node node_modules/markdown-to-slides/index.js docker/docker.md -o web/docker.html --style web/assets/slides.css -w"
+    "slides-watch-git": "node node_modules/markdown-to-slides/index.js git/git.md -o web/git.html --style web/assets/slides.css -w --include-remark",
+    "slides-watch-docker": "node node_modules/markdown-to-slides/index.js docker/docker.md -o web/docker.html --style web/assets/slides.css -w --include-remark"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mRoca/rtfm-rapid-team-formation-method.git"
-  },
+  "repository": "git+https://github.com/mRoca/rtfm-rapid-team-formation-method.git",
   "author": "Michel Roca",
   "license": "MIT",
   "bugs": {
@@ -21,6 +18,6 @@
   },
   "homepage": "https://github.com/mRoca/rtfm-rapid-team-formation-method#readme",
   "devDependencies": {
-    "markdown-to-slides": "^1.0.3"
+    "markdown-to-slides": "^1.0.5"
   }
 }

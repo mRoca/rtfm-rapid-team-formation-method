@@ -1,22 +1,19 @@
-front-nginx:
+version: "3.2"
+
+services:
+#  traefik:
+#    ports:
+#      - '80:80' # Uncomment to use the 80 port on your host instead of the 8080 one.
+
+  tools:
+    volumes:
+      - ~/.cache/composer:/var/www/.composer # ubuntu
+      #- ~/.composer:/var/www/.composer # debian
+
+  front:
     environment:
         DOMAIN_NAME: front.rtfm.docker
 
-api-nginx:
+  api:
     environment:
         DOMAIN_NAME: api.rtfm.docker
-
-# Complete credentials and uncomment to use blackfire
-#
-#front-fpm:
-#    links:
-#        - api-nginx:api.rtfm.docker
-#        - blackfire
-#
-#blackfire:
-#    image: blackfire/blackfire
-#    environment:
-#        BLACKFIRE_LOG_LEVEL: 4
-#        BLACKFIRE_SERVER_ID: XXXX
-#        BLACKFIRE_SERVER_TOKEN: XXXX
-

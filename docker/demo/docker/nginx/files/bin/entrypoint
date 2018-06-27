@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+set -e
+
+if [ ! -z "${PHP_BACKEND}" ]; then
+    echo "upstream php-upstream { server ${PHP_BACKEND}; }" > /etc/nginx/conf.d/upstream.conf
+else
+    echo "PHP_BACKEND variable not set, using 'backend_php:9001' as php backend"
+fi
+
+exec "$@"
