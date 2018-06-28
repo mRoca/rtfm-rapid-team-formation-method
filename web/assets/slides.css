@@ -47,6 +47,9 @@ blockquote {
 
 img {
     max-width: 100%;
+    max-height: 520px;
+    display: inline-block;
+    margin: auto;
 }
 
 table {
