@@ -5,7 +5,7 @@ services:
 
 before_script:
   - if [ -x "$(command -v docker)" ]; then docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; fi
-  - apk add --no-cache py2-pip make && pip install docker-compose
+  - apk add --no-cache make
 
 stages:
   - test
@@ -16,15 +16,14 @@ stages:
 test:
   stage: test
   script:
-    - echo "Tests passed"
+    - echo "Tests passed O:-)"
 
 build:prod:
   stage: build
   script:
-    - docker-compose pull
-    - docker pull $CI_REGISTRY/mroca/rtfm-rapid-team-formation-method:${CI_COMMIT_REF_NAME} || true
-    - docker-compose run --rm node yarn install --pure-lockfile && npm run-script slides
+    - docker run --rm -w /srv -v `pwd`:/srv node:10.5-alpine sh -c "apk add --no-cache git && yarn install --frozen-lockfile && npm run-script slides"
 
+    - docker pull $CI_REGISTRY/mroca/rtfm-rapid-team-formation-method:${CI_COMMIT_REF_NAME} || true
     - docker build -t $CI_REGISTRY/mroca/rtfm-rapid-team-formation-method:${CI_COMMIT_REF_NAME} .
     - docker push $CI_REGISTRY/mroca/rtfm-rapid-team-formation-method:${CI_COMMIT_REF_NAME}
   only:

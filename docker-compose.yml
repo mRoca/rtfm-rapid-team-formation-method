@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   node:
-    image: node:10.5-alpine
+    image: node:10.5
     user: node
     working_dir: /srv
     volumes:
