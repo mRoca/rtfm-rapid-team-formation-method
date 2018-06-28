@@ -1,0 +1,61 @@
+image: docker:stable
+
+services:
+  - docker:dind
+
+before_script:
+  - if [ -x "$(command -v docker)" ]; then docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; fi
+  - apk add --no-cache py2-pip make && pip install docker-compose
+
+stages:
+  - test
+  - build
+  - deploy
+  - post-deploy
+
+test:
+  stage: test
+  script:
+    - echo "Tests passed"
+
+build:prod:
+  stage: build
+  script:
+    - docker-compose pull
+    - docker pull $CI_REGISTRY/mroca/rtfm-rapid-team-formation-method:${CI_COMMIT_REF_NAME} || true
+    - docker-compose run --rm node yarn install --pure-lockfile && npm run-script slides
+
+    - docker build -t $CI_REGISTRY/mroca/rtfm-rapid-team-formation-method:${CI_COMMIT_REF_NAME} .
+    - docker push $CI_REGISTRY/mroca/rtfm-rapid-team-formation-method:${CI_COMMIT_REF_NAME}
+  only:
+    - develop
+    - master
+    - tags
+
+deploy:uat:
+  stage: deploy
+  script:
+    - echo "Deploying uat..."
+  only:
+    - develop
+
+deploy:snapshot:
+  stage: deploy
+  script:
+    - echo "Deploying snapshot..."
+  only:
+    - master
+
+deploy:prod:
+  stage: deploy
+  script:
+    - echo "Deploying prod..."
+  only:
+    - tags
+
+post-deploy:prod:
+  stage: post-deploy
+  script:
+    - echo "Pushing queue messages..."
+  only:
+    - tags
