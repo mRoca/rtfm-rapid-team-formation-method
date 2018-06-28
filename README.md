@@ -1,5 +1,7 @@
 # RTFM - Rapid Team Formation Method
 
+[![pipeline status](https://gitlab.com/mRoca/rtfm-rapid-team-formation-method/badges/master/pipeline.svg)](https://gitlab.com/mRoca/rtfm-rapid-team-formation-method/commits/master)
+
 ## Summary
 
 ### Git & working with a team
